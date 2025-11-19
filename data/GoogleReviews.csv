@@ -1,0 +1,171 @@
+2-stage
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Running Build Stage...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Running Deploy Stage...'
+            }
+        }
+    }
+}
+
+2-stage with email
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building the application..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying the application..."
+            }
+        }
+    }
+
+    post {
+        success {
+            emailext(
+                to: 'your_email@example.com',
+                subject: "Jenkins Job SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Hello,<br><br>The Jenkins job <b>${env.JOB_NAME}</b> completed successfully.<br><br>Build Number: ${env.BUILD_NUMBER}<br>Status: SUCCESS<br><br>Regards,<br>Jenkins"
+            )
+        }
+
+        failure {
+            emailext(
+                to: 'your_email@example.com',
+                subject: "Jenkins Job FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Hello,<br><br>The Jenkins job <b>${env.JOB_NAME}</b> has FAILED.<br><br>Build Number: ${env.BUILD_NUMBER}<br>Status: FAILED<br><br>Regards,<br>Jenkins"
+            )
+        }
+    }
+}
+
+
+3-stage:
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building the application..."
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying the application..."
+            }
+        }
+    }
+}
+
+
+3-stage with email
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building the application..."
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying the application..."
+            }
+        }
+    }
+
+    post {
+        success {
+            emailext(
+                to: 'your_email@example.com',
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                <p>Hello,</p>
+                <p>The Jenkins job <b>${env.JOB_NAME}</b> completed successfully.</p>
+                <p>Build Number: <b>${env.BUILD_NUMBER}</b></p>
+                <p>Status: SUCCESS</p>
+                """
+            )
+        }
+
+        failure {
+            emailext(
+                to: 'your_email@example.com',
+                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                <p>Hello,</p>
+                <p>The Jenkins job <b>${env.JOB_NAME}</b> has FAILED.</p>
+                <p>Build Number: <b>${env.BUILD_NUMBER}</b></p>
+                <p>Status: FAILED</p>
+                """
+            )
+        }
+    }
+}
+
+
+
+
+2-stage scripted
+node {
+
+    stage('Build') {
+        echo "Building the application..."
+    }
+
+    stage('Deploy') {
+        echo "Deploying the application..."
+    }
+
+}
+
+
+
+3-stage scripted
+node {
+
+    stage('Build') {
+        echo "Building the application..."
+    }
+
+    stage('Test') {
+        echo "Running tests..."
+    }
+
+    stage('Deploy') {
+        echo "Deploying the application..."
+    }
+
+}
+
+
