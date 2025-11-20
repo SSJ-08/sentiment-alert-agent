@@ -1,0 +1,91 @@
+KEY-PAIR is used to connect to a virtual machine.
+AWS:
+After launching the instance, u have 2 ways to connect. 
+1) using ec2 instance  where u can directly connect.
+2) using ssh keys. paste the ssh key in windows powershell in the directory of ur .pem file.
+
+
+(ubutnu will contain default git. u don't have to install)
+admin mode of virtual machine:
+sudo su  ->admin mode (super user)
+sudo apt-get update -> update ur repository
+sudo apt-get install docker.io 
+sudo docker --version
+sudo dokcer images
+sudo docker ps  ->present status of running containers
+git clone http of maven-web application
+navigate to maven-web application
+cd maven-web folder name
+
+after cloning:
+ls
+ - you wil get mavenweb/
+cd mavenweb/
+ls
+ - here u should get pom.xml file
+nano Dockerfile
+sudo docker build -t img1 .
+sudo docker images
+sudo docker run -d -p 8080:8080 img1
+access the application with public ip of ec2 instance(auto-assigned ip address)
+not getting page
+configure the security groups
+http://github.com/archanareddyse/mavenwebse.git
+
+
+
+
+MINIKUBE: in windows powershell run as administrator
+1)New-Item -Path 'c:\' -Name 'minikube' -ItemType Directory -Force
+$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -OutFile 'c:\minikube\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+
+2)$oldPath = [Environment]::GetEnvironmentVariable('Path', [EnvironmentVariableTarget]::Machine)
+if ($oldPath.Split(';') -inotcontains 'C:\minikube'){
+  [Environment]::SetEnvironmentVariable('Path', $('{0};C:\minikube' -f $oldPath), [EnvironmentVariableTarget]::Machine)
+}
+
+3)Hyper-V
+
+kubectl delete deployment <deploymentname>
+minikube start --driver=hyperv
+docker: minikube start=docker
+verify minikube is running
+minikube start
+minikube status
+
+kubectl get pods
+kubectl describe pods
+
+4) kubectl get deployments
+delete an exisiting deployment: kubectl delete pod <podname>
+
+5) verify minikube is running
+kubectl create deployment mynginx  --image=archanareddycse/oltrs (if u don't have an image in docker hub use nginx instead of archanareddyxse)
+6) kubectl get deployments --lists the deployments   -> in the ready column of mynginx if u get 0/1 it is an error. it will not execute when you expose deployment. in this case create the deployment again with mynginx1. it should be 1/1
+7) kubectl get pods    --shows running
+8) kubectl describe pods
+9) kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80
+10) kubectl get service mynginx  -> you should get service port number
+11) paste the port number in local host you shoule get welcome to nginx ->localhost:81
+if you dint get the port number you have to do tunnelling -> kubectl port-forward svc/mynginx 81:80
+
+
+
+
+
+
+
+
+
+
+
+
+ngrok:
+copy the url(authentication token) from the website and paste in the ngrok command prompt
+1) ngrok.exe http <Jenkins port number> ->example port number:8081 -> u will get ngrok dialog box with forwarding url
+
+
+
+email notification:
+1) 2 step authentication should be enabled
+
